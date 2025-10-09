@@ -1,0 +1,32 @@
+# Test scripts (user will provide their own)
+test-scripts/*.js
+test-scripts/**/*.js
+!test-scripts/README.md
+!test-scripts/k6/test.js
+!test-scripts/playwright/fixtures.js
+!test-scripts/playwright/test.spec.js
+test-scripts/playwright/test-results/*
+test-scripts/test-results/*
+
+# Docker volumes
+grafana-storage/
+prometheus-storage/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+

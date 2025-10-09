@@ -1,0 +1,17 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+  external_labels:
+    monitor: 'k6-playwright-comparison'
+
+scrape_configs:
+  # Scrape Docker Stats Exporter for container metrics
+  - job_name: 'docker-stats'
+    static_configs:
+      - targets: ['stats-exporter:8091']
+    scrape_interval: 5s
+
+  # Scrape Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']

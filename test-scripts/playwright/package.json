@@ -1,0 +1,16 @@
+{
+  "name": "playwright-tests",
+  "version": "1.0.0",
+  "description": "Playwright tests for resource comparison",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "latest"
+  }
+}
+
