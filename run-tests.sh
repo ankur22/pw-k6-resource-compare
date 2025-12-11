@@ -71,7 +71,7 @@ run_k6_test() {
     
     start_time=$(date +%s)
     
-    if docker compose exec -T k6-browser k6 run /test-scripts/k6/test.js; then
+    if docker compose exec -T k6-browser k6 run /test-scripts/k6/test.js --profiling-enabled; then
         end_time=$(date +%s)
         duration=$((end_time - start_time))
         log_success "k6 browser test completed in ${duration}s"

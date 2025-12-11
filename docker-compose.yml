@@ -16,9 +16,11 @@ services:
   # k6 browser container (pure - no monitoring overhead)
   k6-browser:
     build:
-      context: ./k6-browser
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: pw-k6-resource-compare/k6-browser/Dockerfile
     container_name: k6-browser
+    ports:
+      - "6060:6565"
     depends_on:
       - chrome
     volumes:

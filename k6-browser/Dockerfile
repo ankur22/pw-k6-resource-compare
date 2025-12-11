@@ -1,16 +1,29 @@
+# Build stage - compile k6 from source
+FROM golang:1.25-alpine AS builder
+
+LABEL maintainer="k6-browser-test"
+
+# Copy k6 source code from local repository (relative to build context)
+COPY k6 /build/k6
+
+# Build k6
+WORKDIR /build/k6
+
+# Build k6 (main.go is in root, not cmd/k6)
+RUN go build
+
+# Final stage - runtime environment
 FROM node:20-alpine
 
 LABEL maintainer="k6-browser-test"
 LABEL description="k6 browser container for resource comparison"
 
-# Install k6 v1.3.0
-RUN apk add --no-cache ca-certificates curl && \
-    curl -sL "https://github.com/grafana/k6/releases/download/v1.3.0/k6-v1.3.0-linux-amd64.tar.gz" -o /tmp/k6.tar.gz && \
-    tar -xzf /tmp/k6.tar.gz -C /tmp && \
-    cp /tmp/k6-v1.3.0-linux-amd64/k6 /usr/local/bin/k6 && \
-    chmod +x /usr/local/bin/k6 && \
-    rm -rf /tmp/k6* && \
-    apk del curl
+# Install runtime dependencies
+RUN apk add --no-cache ca-certificates
+
+# Copy k6 binary from builder stage
+COPY --from=builder /build/k6/k6 /usr/local/bin/k6
+RUN chmod +x /usr/local/bin/k6
 
 # Verify k6 installation
 RUN k6 version
@@ -24,4 +37,3 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 
 # Default command
 CMD ["tail", "-f", "/dev/null"]
-
